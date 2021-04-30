@@ -28,4 +28,18 @@
  Password: admin
  
  
-# test
+# test - API
+- Send Email
+    - API: http://127.0.0.1:8000/api/emails/send
+    - Method: POST
+    - params
+        - to_email
+        - from_email
+        - subject
+        - body
+        - attachment[]
+        - attachment[]
+        
+- Check Status API
+    - http://127.0.0.1:8000/api/emails/1
+    - Method: GET
