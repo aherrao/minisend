@@ -32,6 +32,9 @@ Route::group(['middleware' => ['web']], function () {
             Route::resources([
                 'users' => 'Client\UserController',
             ]);
+            Route::resources([
+                'emails' => 'Client\MailerController',
+            ]);
         });
 
         /** Only Minisend Users are allow */

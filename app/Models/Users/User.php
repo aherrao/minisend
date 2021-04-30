@@ -5,11 +5,12 @@ namespace App\Models\Users;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Profiles\Profile;
 
 class User extends Authenticatable
 {
-    use Notifiable, UserRepository, UserRelationship;
+    use Notifiable,
+        Gateway,
+        Relation;
 
     /**
      * The attributes that are mass assignable.
@@ -46,16 +47,7 @@ class User extends Authenticatable
         $objUser->email = $objRequest->email;
         $objUser->is_admin = ($objRequest->is_admin) ? true : false;
         $objUser->password = Hash::make($objRequest->password);
-
-        if($objUser->profile) {
-            $objProfile = $objUser->profile;
-        } else {
-            $objProfile = new Profile();
-            $objProfile = $objProfile->saveProfile($objRequest);
-        }
-
-        $objUser->profile_id = $objProfile->id;
-        $objUser->client_id = $objProfile->client_id;
+        $objUser->client_id = 1;
 
         $objUser->save();
 

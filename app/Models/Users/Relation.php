@@ -2,8 +2,6 @@
 
 namespace App\Models\Users;
 
-trait UserRepository {
-
+trait Relation {
 
 }
-

@@ -34,7 +34,7 @@ class DataHelper
 
     public static function getStatusTypeColor(int $statusTypeId)
     {
-        return self::statusTypes()[$statusTypeId] ?? '';
+        return self::statusTypeColors()[$statusTypeId] ?? '';
     }
 
     public static function getStatusTypeId(string $status)

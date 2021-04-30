@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use UserTrait;
-    private $objUser;
+    protected $objUser;
     protected $arrOptions;
 
     public function __construct(User $objUser)
@@ -27,39 +27,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $recordsPerPage = config('common.recPerPage');
-        $arrObjUsers = null ;        
-        $arrWhereCondition = [];
-        //echo $request->get('projectname').'=='.$request->get('key').'=='.$request->get('url');
-
-        if( $request->get('name') != null && $request->get('name')!='' ){            
-            $name = $request->get('name');
-            $arrWhereCondition[] = ['name', 'like' , '%'.$name.'%'];
-        }
-        if( $request->get('email') != null && $request->get('email')!='' ){
-            $email = $request->get('email');
-            $arrWhereCondition[] = ['email', 'like' , '%'.$email.'%'];
-        }
-        /*if( $request->get('sprint') != null && $request->get('sprint')!='' ){
-            $sprint = $request->get('sprint');
-            $arrWhereCondition[] = ['sprint', 'like' , '%'.$sprint.'%'];
-        }*/
-
-        if( !empty( $arrWhereCondition ) && count( $arrWhereCondition )>0 ){
-            $arrObjUsers = $this->objUser->where($arrWhereCondition)->paginate($recordsPerPage);
-            //print_r($arrObjProjects);
-        }else{
-            $arrObjUsers = $this->objUser->paginate($recordsPerPage);    
-            /*echo '<pre>';
-            print_r($arrObjUsers);
-            exit();*/
-            //$arrObjProjects = $this->objProject->all();
-        }        
+        $arrObjUsers = $this->objUser->fetchPaginatedUses($request);
 
         if($request->ajax()){
             return $arrObjUsers->toJson();
         } else {
-            $this->getCommonDetails();                 
+            $this->getCommonDetails();
             return view('clients.users.index')
             ->with('jsonUsers', $arrObjUsers->toJson())
             ->with('options', $this->arrOptions->toJson());

@@ -31,7 +31,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 /** fontawesome - end */
 
-// import the styles 
+// import the styles
 import 'vue-good-table/dist/vue-good-table.css'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -57,20 +57,9 @@ Vue.component('vueTrix', VueTrix);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-//Project
-Vue.component('project-index', require('./components/clients/projects/Index.vue').default);
-Vue.component('project-create', require('./components/clients/projects/Create.vue').default);
-Vue.component('project-show', require('./components/clients/projects/Show.vue').default);
-
-//Sprint
-Vue.component('sprint-index', require('./components/clients/sprints/Index.vue').default);
-Vue.component('sprint-create', require('./components/clients/sprints/Create.vue').default);
-Vue.component('sprint-show', require('./components/clients/sprints/Show.vue').default);
-
-//Task
-Vue.component('task-index', require('./components/clients/tasks/Index.vue').default);
-Vue.component('task-create', require('./components/clients/tasks/Create.vue').default);
-Vue.component('task-show', require('./components/clients/tasks/Show.vue').default);
+//Emails
+Vue.component('mailer-index', require('./components/clients/mailer/Index.vue').default);
+Vue.component('mailer-show', require('./components/clients/mailer/Show.vue').default);
 
 //Task
 Vue.component('user-index', require('./components/clients/users/Index.vue').default);

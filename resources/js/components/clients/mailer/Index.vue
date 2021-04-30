@@ -4,7 +4,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <a href="/sprints/create" class="btn btn-danger pull-right"> Create Sprint </a>
                         <a href="" class="btn btn-default pull-right"><i class="fa fa-filter" aria-hidden="true"></i></a>
                     </div>
                     <div class="card-body p-0">
@@ -12,21 +11,19 @@
                             <thead>
                                 <tr class="bg-info text-uppercase">
                                     <th>#ID</th>
-                                    <th>Sprint Name</th>
-                                    <th>Project Name</th>
-                                    <th>Created By</th>
-                                    <th>Updated By</th>
+                                    <th>Subject</th>
+                                    <th>To Email</th>
+                                    <th>From Email</th>
+                                    <th>Status</th>
                                     <th>Created At</th>
                                     <th>Updated At</th>
-                                    <th colspan='2'>Actions</th>
+                                    <th colspan='1'>Actions</th>
                                 </tr>
                                 <tr>
-                                    <td></td>
-                                    <td><input class="form-control" type='text' v-model="name" @keyup="fetchDetails(name, 'name');"></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td><input class="form-control" type='text' v-model="id" @keyup="fetchDetails(id, 'id');"></td>
+                                    <td><input class="form-control" type='text' v-model="subject" @keyup="fetchDetails(subject, 'subject');"></td>
+                                    <td><input class="form-control" type='text' v-model="to_email" @keyup="fetchDetails(to_email, 'to_email');"></td>
+                                    <td><input class="form-control" type='text' v-model="from_email" @keyup="fetchDetails(from_email, 'from_email');"></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -35,21 +32,20 @@
                             <tbody>
                             <tr v-for="item in this.paginatedDetails">
                                 <td>{{ item.id }}</td>
-                                <td>{{ item.name }}</td>
-                                <td>{{ project_names[item.project_id] }}</td>
-                                <td>{{ userNames[item.created_by] }}</td>
-                                <td>{{ userNames[item.updated_by] }}</td>
+                                <td>{{ item.subject }}</td>
+                                <td>{{ item.to_email }}</td>
+                                <td>{{ item.from_email }}</td>
+                                <td><p :class="'text-' + item.status_type.icon">{{ item.status }} </p></td>
                                 <td>{{ item.created_at }}</td>
                                 <td>{{ item.updated_at }}</td>
-                                <td><a class="btn btn-link" :href="'/sprints/' + item.id"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-                                <td><a class="btn btn-link" :href="'/sprints/' + item.id + '/edit'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+                                <td><a class="btn btn-link" :href="'/emails/' + item.id"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="card-footer clearfix">
                         <paginate
-                            :page-count="this.totalPages"                            
+                            :page-count="this.totalPages"
                             :click-handler="clickCallback"
                             :prev-text="'Prev'"
                             :next-text="'Next'"
@@ -70,13 +66,14 @@
 
 <script>
     export default {
-        props: ['prop_sprints', 'prop_options'],
+        props: ['prop_emails'],
         data () {
             return {
                 paginatedDetails: [],
-                userNames: [],
-                project_names:[],
-                name: null,
+                id: null,
+                subject: null,
+                to_email: null,
+                from_email: null,
                 searchArr: {},
                 totalPages: null,
             }
@@ -85,22 +82,26 @@
             this.setDefault();
         },
         methods: {
-            setDefault() {                
-                this.paginatedDetails = this.prop_sprints['data'];
-                this.userNames = this.prop_options.user_names;
-                this.project_names = this.prop_options.project_names;
-                this.totalPages = this.prop_sprints['last_page'];                        
+            setDefault() {
+                this.paginatedDetails = this.prop_emails['data'];
+                this.totalPages = this.prop_emails['last_page'];
             },
             clickCallback(pageNum) {
-                this.searchArr['name'] = this.name;
+                this.searchArr['id'] = this.id;
+                this.searchArr['subject'] = this.subject;
+                this.searchArr['to_email'] = this.to_email;
+                this.searchArr['from_email'] = this.from_email;
                 this.searchArr['page'] = pageNum;
-                axios.get('/sprints', { params:  this.searchArr  } ).then(response => {
+                axios.get('/emails', { params:  this.searchArr  } ).then(response => {
                     this.paginatedDetails = response.data['data'];
                 });
             },
             fetchDetails(val,type){
-                this.searchArr['name'] = this.name;
-                axios.get('/sprints', { params:  this.searchArr  } ).then(response => {
+                this.searchArr['id'] = this.id;
+                this.searchArr['subject'] = this.subject;
+                this.searchArr['to_email'] = this.to_email;
+                this.searchArr['from_email'] = this.from_email;
+                axios.get('/emails', { params:  this.searchArr  } ).then(response => {
                     this.paginatedDetails = response.data['data'];
                     this.totalPages = response.data['last_page'];
                 });
