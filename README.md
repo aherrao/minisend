@@ -17,9 +17,11 @@
  - php artisan key:gen
  - php artisan migrate
  - php artisan db:seed
+ - php artisan storage:link
  - ./clear.sh
  - npm install
  - npm run dev
+
  
  Login credentials (Note: seeder must run)
  Username: admin@minisend.com

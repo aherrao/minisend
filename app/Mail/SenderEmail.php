@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Helpers\DataHelper;
 use App\Models\Email\Email;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -39,8 +40,11 @@ class SenderEmail extends Mailable implements ShouldQueue
         $arrObjAttachments = $this->objEmail->attachments;
 
         foreach($arrObjAttachments as $objAttachment) {
-            $email->attach(storage_path('app/public') . $objAttachment->path);
+            $email->attach(storage_path('app/public/') . $objAttachment->path, ['as' => $objAttachment->name]);
         }
+
+        $this->objEmail->email_status_type_id = DataHelper::getStatusTypeId('Sent');
+        $this->objEmail->save();
 
         return $email;
     }

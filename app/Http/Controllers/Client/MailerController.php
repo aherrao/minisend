@@ -32,7 +32,7 @@ class MailerController extends Controller
 
     public function show($intId)
     {
-        $objEmail = $this->objEmail->find($intId);
+        $objEmail = $this->objEmail->with('attachments')->find($intId);
 
         return view('clients.mailer.show')
             ->with('objEmail', $objEmail);

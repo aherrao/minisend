@@ -54,10 +54,34 @@
                     <div class="col-md-12">
                         <div class="form-group row">
                             <div class="col-md-2">
+                                <label class="pull-right">Status</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p :class="'text-' + email.status_type.icon">{{ email.status }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-2">
                                 <label class="pull-right">Body</label>
                             </div>
                             <div class="col-md-6">
                                 <p class="card-footer" v-html="email.body"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <label class="pull-right">Attachments</label>
+                            </div>
+                            <div class="col-md-6">
+                                <a :href="item.url" v-for="item in this.email.attachments">{{ item.name }}</a>
                             </div>
                         </div>
                     </div>
